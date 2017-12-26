@@ -26,8 +26,8 @@ View::View(std::string title, unsigned int res_x, unsigned int res_y, unsigned i
 	rand_x = std::bind(x_dist, generator1);
 	rand_y = std::bind(y_dist, generator2);
 
-	Vec2 pos(0);
-	Vec2 vel(0);
+	Vec2 pos;
+	Vec2 vel;
 	objects[0] = new Object(pos, vel, 10.0, 0.0, false);
 
 	bool occupied;
@@ -103,8 +103,11 @@ void View::update() {
 		}
 		reset_velocity = false;
 	} else {
-		for(unsigned int i = 1; i < objects.size(); i++) {
-			for(unsigned int j = objects.size() - 1; j < objects.size(); j--) {
+		for(unsigned int i = 0; i < objects.size(); i++) {
+			for(unsigned int j = 0; j < objects.size(); j++) {
+				if((i == 0 || j == 0) && (objects[i]->pos + objects[i]->vel * dt - objects[j]->pos + objects[j]->vel * dt).length() <= object_size)
+					continue;
+
 				if(i == j)
 					break;
 
@@ -114,7 +117,10 @@ void View::update() {
 				objects[j]->vel += -dir.normalize() * 6.673e-11 *
 							objects[i]->mass / pow(dir.length(), 2) * dt;
 			}
-			for(unsigned int j = objects.size() - 1; j > 0; j--) {
+			for(unsigned int j = 1; j < objects.size(); j++) {
+				if(i == 0)
+					continue;
+
 				if(i == j)
 					break;
 
