@@ -2,11 +2,32 @@
 #define __VEC2_H__
 
 #include <cmath>
+#include <memory>
+#if defined(__SSE4_1__)
+	#include <smmintrin.h>
+#elif defined(__SSE2__)
+	#include <emmintrin.h>
+#endif
+
+#ifdef __SSE2__
+typedef union {
+	__m128d v;
+	double xy[2];
+} vector;
+#endif //__SSE2__
 
 class Vec2 {
+	#ifdef __SSE2__
+	vector vec;
+	#endif //__SSE2__
 public:
+	#ifdef __SSE2__
+	double& x;
+	double& y;
+	#else
 	double x;
 	double y;
+	#endif //__SSE2__
 
 	Vec2();
 	Vec2(double xy);
