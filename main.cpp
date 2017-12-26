@@ -4,7 +4,7 @@
 #include <iostream>
 
 int main(int argc, char **argv) {
-	int num_objects = 50;
+	int num_objects = 100;
 	if(argc > 1) {
 		int arg = atol(argv[1]);
 		if(arg > 1) {
