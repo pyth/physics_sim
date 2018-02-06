@@ -1,3 +1,5 @@
+![island screenshot](https://github.com/pyth/screenshots/blob/master/physics_sim.png)
+
 # physics_sim
 A simulation of circular objects colliding with one another.
 
